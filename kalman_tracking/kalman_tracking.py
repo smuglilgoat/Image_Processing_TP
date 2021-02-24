@@ -44,12 +44,19 @@ class ProcessImage:
         # Create Kalman Filter Object
         kfObj = KalmanFilter()
         predictedCoords = np.zeros((2, 1), np.float32)
+        init_pos = True
+        [prev_ballX, prev_ballY] = [0, 0]
 
         while(vid.isOpened()):
             rc, frame = vid.read()
 
             if(rc == True):
                 [ballX, ballY] = self.DetectBall(frame)
+                if ((ballX, ballY) == (0, 0) and not init_pos): 
+                    [ballX, ballY] = [prev_ballX, prev_ballY]
+
+                init_pos = False
+                [prev_ballX, prev_ballY] = [ballX, ballY]
                 predictedCoords = kfObj.Estimate(ballX, ballY)
                 predictedCoords = (int(predictedCoords[0]), int(predictedCoords[1]))
 
