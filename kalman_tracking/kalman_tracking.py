@@ -32,7 +32,7 @@ class ProcessImage:
 
     def DetectObject(self):
 
-        vid = cv.VideoCapture('singleball.mp4')
+        vid = cv.VideoCapture("D:\\Documents\\Code\\image_processing_tp\\tracking\\singleball.mp4")
 
         if(vid.isOpened() == False):
             print('Cannot open input video')
