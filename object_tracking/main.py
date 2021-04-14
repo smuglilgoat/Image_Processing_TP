@@ -7,7 +7,7 @@ tracker = EuclideanDistTracker()
 cap = cv2.VideoCapture("pedestrians.avi")
 
 objectDetector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=40, detectShadows=False)
-my_dict = {}
+results = {}
 
 while True:
     ret, frame = cap.read()
@@ -27,7 +27,7 @@ while True:
     objects = tracker.update(detections, 85)
     for o in objects:
         x, y, w, h, id = o
-        my_dict[id] = {'x': x, 'y': y, 'w':w, 'h':h}
+        results[id] = {'x': x, 'y': y, 'w':w, 'h':h}
         cv2.putText(roi, str(id), (x, y - 15), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 2)
         cv2.rectangle(roi, (x, y), (x + w, y + h), (0, 255, 0), 3)
         cv2.circle(roi, (x + w//2, y + h//2), 5, (0, 255, 0), -1)
@@ -41,6 +41,6 @@ while True:
         break
 
 with open('result.json', 'w') as fp:
-    json.dump(my_dict, fp)
+    json.dump(results, fp)
 cap.release()
 cv2.destroyAllWindows()

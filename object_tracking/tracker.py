@@ -6,10 +6,10 @@ class EuclideanDistTracker:
         self.centers = {}
         self.ids = 0
 
-    def update(self, region, distTreshold):
+    def update(self, boundingBoxes, distTreshold):
         objects = []
 
-        for rect in region:
+        for rect in boundingBoxes:
             x, y, w, h = rect
             cx = (x + x + w) // 2
             cy = (y + y + h) // 2
